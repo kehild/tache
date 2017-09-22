@@ -1,0 +1,228 @@
+body{
+	
+    background: url("image/game.jpg") no-repeat center fixed;
+    margin:0;
+    padding: 0;
+    -webkit-background-size: cover; /* pour Chrome et Safari */
+    -moz-background-size: cover; /* pour Firefox */
+    -o-background-size: cover; /* pour Opera */
+    background-size: cover; /* version standardisée */
+    font-size: 12px;
+	
+}
+
+#test{
+	color:white;
+}
+
+section {
+	
+    margin-left: 50px;
+    margin-right: 50px;
+    opacity: 1;
+    border-width: 5pt;
+    font-size: 12px;
+    margin-top: 10px;
+    color: black;
+    margin-bottom:10px;
+}
+
+section div#slider{
+	
+    margin: auto;
+    padding: 0;
+    position : relative;
+}
+
+#footer{
+
+    background-color: #98D5EF;
+    color: black;
+    position: relative;
+    width: 100%;
+    bottom: 0;
+    height: 10px;
+    opacity: 0.7;
+    text-align : center;
+    border-radius: 2px;
+    padding: 20px;
+    border-radius : 5px 5px 5px 5px;
+   	
+}
+
+/* text transparant */
+
+div.transbox {
+    
+    min-height: 750px;
+    margin: 3px;
+    background-color: #ffffff;
+    border: 1px solid;
+    opacity: 0.9;
+    filter: alpha(opacity=60); /* For IE8 and earlier */
+
+}
+
+div.site{
+    color:black;    
+}
+
+div.transbox p {
+    margin: 5%;
+}
+
+/* Menu saisie */
+
+input[type=text], select, textarea {
+    
+    width: 90%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+
+input[type=submit] {
+    
+    width: 90%;
+    background-color: #98D5EF;
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+#saisie{
+    
+    color: black;
+}
+
+div {
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 20px;
+    color: black;
+    text-align:  center;
+	
+}
+
+/* Bouton de Modification */
+
+#Valider,#Modifier, #Annuler, #tache, #appli{
+    border-radius: 2px;
+    background-color: #98D5EF;
+    padding: 20px;
+    color: black;
+    width: 40%;
+    border-radius : 5px 5px 5px 5px;
+    opacity: 0.9;
+	
+}
+
+/* liste tableau sauf celui du header */ 
+
+table#dernier{
+
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 12px;
+}
+
+th{
+    text-align: left;
+    padding: 8px;
+    font-size: 12px;
+    background-color: #f2f2f2;
+}
+
+/* auto completion */ 
+
+.autocomplete-suggestions { 
+    
+    border: 1px solid #999; 
+    background: #f4eaea; 
+    overflow: auto; 
+    
+}
+.autocomplete-suggestion { 
+    
+    padding: 2px 5px; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    color: black;
+}
+.autocomplete-selected { 
+    
+    background: #F0F0F0; 
+}
+.autocomplete-suggestions strong { 
+    
+    font-weight: normal; 
+    color: #f24b58; 
+
+}
+
+/* Responsive design */
+
+@media screen and (max-width: 1000px) {
+
+section{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+	
+table#dernier{
+    border-collapse: collapse;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+th{
+    text-align: left;
+    background-color: #f2f2f2;
+}
+
+textarea{
+    width: 70%;
+}	
+
+}
+
+/* Responsive design pour un 15pouce */
+
+@media screen and (max-width: 1500px) {
+
+section {
+
+    font-size: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+ul{
+    font-size: 12px;
+}
+
+table#dernier{
+    font-size:12px;
+}
+
+th{
+    font-size:12px;
+    background-color: #f2f2f2;
+}
+
+#footer{
+    display:none;
+}
+
+}
+
+
+ 
