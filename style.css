@@ -114,7 +114,7 @@ div {
 
 /* Bouton de Modification */
 
-#Valider,#Modifier, #Annuler, #tache, #appli{
+#Valider,#Modifier, #Annuler, #tache, #appli, #total_tache{
     border-radius: 2px;
     background-color: #98D5EF;
     padding: 20px;

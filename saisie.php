@@ -9,14 +9,13 @@ include_once 'header.php';
 if (isset($_POST['saisir'])) {
     
 	$tache = new Webservice($db);
-	$tache->SaisieTache($db,$_POST['nom'],$_POST['type'],$_POST['tache']);	
+	$tache->SaisieTache($db,$_POST['nom'],$_POST['type'],$_POST['tache'],$_POST['statut']);	
 }
 
 if (isset($_POST['Annuler'])){   
     echo '<meta http-equiv="refresh" content="0;URL=index.php">';   
 }
 
-?>
 ?>
 <body>
 	<section>
@@ -40,6 +39,14 @@ if (isset($_POST['Annuler'])){
                      <label for="tache">Tache</label>
                      </br>
                     <textarea name="tache" rows="6" cols="60"></textarea>
+                    </br>
+                    <label for="statut">Statut de la Tache</label>
+                    </br>
+                    <select name="statut" id="statut">
+                            <option value="A Faire">A Faire</option>
+                            <option value="En Cours">En Cours</option> 
+                            <option value="Terminé">Terminé</option>
+                    </select>
                     </br>
                     <input type="submit" id="Annuler" name="Annuler" value="Annuler">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

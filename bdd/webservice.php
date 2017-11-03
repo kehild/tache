@@ -12,7 +12,7 @@ class Webservice{
   
   public function listetache($db){
       
-                        $stmt = $db->prepare("SELECT nom,COUNT(nom) FROM appli group by nom"); 
+                        $stmt = $db->prepare("SELECT nom,COUNT(nom) FROM appli where statut='A Faire' OR statut='En Cours' group by nom"); 
 			$stmt->execute();
 					
                         echo "<table id='dernier' align='center'>";
@@ -33,7 +33,7 @@ class Webservice{
 
   public function detail_tache_nouveau($db){
       
-      		$stmt = $db->prepare("SELECT * FROM appli where nom='".$_GET['nom']."' and type='Nouveau'"); 
+      		$stmt = $db->prepare("SELECT * FROM appli where nom='".$_GET['nom']."' and type='Nouveau' and not statut='Terminé'"); 
 		$stmt->execute();
 					
                 echo "<table id='dernier' align='center'>";
@@ -41,6 +41,7 @@ class Webservice{
 		foreach(($stmt->fetchAll()) as $donnees){
                     		
 			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
+                        echo "<th>"; echo $donnees['statut']; echo "<th>";
                         echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 			echo "<th>"; echo '<a href="?id1='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";                        
                 }
@@ -50,7 +51,7 @@ class Webservice{
   
     public function detail_tache_amelioration($db){
       
-      		$stmt = $db->prepare("SELECT * FROM appli where nom='".$_GET['nom']."' and type='Amelioration'"); 
+      		$stmt = $db->prepare("SELECT * FROM appli where nom='".$_GET['nom']."' and type='Amelioration' and not statut='Terminé'"); 
 		$stmt->execute();
 		                    
                 echo "<table id='dernier' align='center'>";
@@ -58,6 +59,7 @@ class Webservice{
 		foreach(($stmt->fetchAll()) as $donnees){
 			
 			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
+                        echo "<th>"; echo $donnees['statut']; echo "<th>";
                         echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 			echo "<th>"; echo '<a href="?id2='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";
                         
@@ -68,7 +70,7 @@ class Webservice{
   
       public function detail_tache_correction($db){
       
-      		$stmt = $db->prepare("SELECT * FROM appli where nom='".$_GET['nom']."' and type='Correction'"); 
+      		$stmt = $db->prepare("SELECT * FROM appli where nom='".$_GET['nom']."' and type='Correction' and not statut='Terminé'"); 
 		$stmt->execute();
 					
                 echo "<table id='dernier' align='center'>";
@@ -76,6 +78,7 @@ class Webservice{
 		foreach(($stmt->fetchAll()) as $donnees){
 			
 			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
+                        echo "<th>"; echo $donnees['statut']; echo "<th>";
                         echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 			echo "<th>"; echo '<a href="?id3='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";
                         
@@ -85,7 +88,7 @@ class Webservice{
   
         public function detail_tache_supression($db){
       
-      		$stmt = $db->prepare("SELECT * FROM appli where nom='".$_GET['nom']."' and type='Suppression'"); 
+      		$stmt = $db->prepare("SELECT * FROM appli where nom='".$_GET['nom']."' and type='Suppression' and not statut='Terminé'"); 
 		$stmt->execute();
 					
                 echo "<table id='dernier' align='center'>";
@@ -93,6 +96,7 @@ class Webservice{
 		foreach(($stmt->fetchAll()) as $donnees){
 			
 			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
+                        echo "<th>"; echo $donnees['statut']; echo "<th>";
                         echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 			echo "<th>"; echo '<a href="?id4='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";
                
@@ -100,8 +104,9 @@ class Webservice{
                 echo "</table>";
   }
   
-    public function SaisieTache($db,$nom,$type,$tache){
-		
+    public function SaisieTache($db,$nom,$type,$tache,$statut){
+        
+	$date_tache = date("Y-m-d H:i:s");	
 		try {	
 			
                         $nom = $_POST['nom'];
@@ -112,7 +117,7 @@ class Webservice{
 			$tache = str_replace("'", "\'", $tache);
 			$tache = str_replace("’", " ", $tache);
 			
-			$sql = "Insert INTO appli (nom,tache,type) VALUES ('$nom','$tache','$type')";
+			$sql = "Insert INTO appli (nom,tache,type,statut,date_tache) VALUES ('$nom','$tache','$type','$statut','$date_tache')";
 			$db->exec($sql);
 			echo "Insertion réussi";
 
@@ -303,6 +308,15 @@ public function modif_tache($db){
                      </br>
                     <textarea name="tache" rows="6" cols="60"><?php echo $toto['tache']; ?></textarea>
                     </br>
+                    <label for="statut">Statut de la Tache</label>
+                    </br>
+                    <select name="statut" id="statut">
+                            <option value="<?php echo $toto['statut']; ?>"><?php echo $toto['statut']; ?></option>
+                            <option value="A Faire">A Faire</option>
+                            <option value="En Cours">En Cours</option> 
+                            <option value="Terminé">Terminé</option>
+                    </select>
+                    </br>
                     <input type="submit" id="Annuler" name="Annuler" value="Annuler">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="submit" id="Modifier" name="Modifier" value="Modifier"> 
@@ -314,13 +328,15 @@ public function modif_tache($db){
 
 public function Update_tache($db){
     
+        $date_tache = date("Y-m-d H:i:s");
+        
     		try {
 				
 			$tache = $_POST['tache'];
                         $tache = str_replace("'", "\'", $tache);
                         $tache = str_replace("’", " ", $tache);
                                                      				
-			$sql = "UPDATE appli SET tache='".$_POST['tache']."' WHERE nom='".$_GET['nom']."' AND id='".$_GET['id5']."'";
+			$sql = "UPDATE appli SET tache='".$tache."', statut='".$_POST['statut']."', date_tache='$date_tache' WHERE nom='".$_GET['nom']."' AND id='".$_GET['id5']."'";
 			
 			$db->exec($sql);
 				
@@ -333,8 +349,65 @@ public function Update_tache($db){
 				die('Erreur : ' .$e->getMessage());
 			
 			}
+    }
     
-    
+  public function total_tache($db){
+      
+      		$stmt = $db->prepare("SELECT nom,tache,date_tache,statut FROM appli where statut='Terminé' ORDER BY date_tache DESC"); 
+		$stmt->execute();               
+                
+                echo "<table id='dernier' align='center'>";
+			
+                        echo "<tr><th>"; echo "Nom Application"; echo "</th>";
+                        echo "<th>"; echo "Tache réaliser"; echo "</th>";
+                        echo "<th>"; echo "Date de réalisation"; echo "</th></tr>";
+                           
+		foreach(($stmt->fetchAll()) as $donnees){
+			
+                        $date=date_create($donnees['date_tache']);
+                        $dateF = date_format($date,"d-m-Y");                  
+                    
+			echo "<tr><th>"; echo $donnees['nom']; echo "</th>";
+                        echo "<th>"; echo $donnees['tache']; echo "</th>";
+                        echo "<th>"; echo $dateF; echo "</th></tr>";
+                }
+                
+                echo "</table>";
+                 ?> </br> <?php
+  }
+  
+function total_termine($db){
+		
+		$stmt = $db->prepare("select COUNT(tache) from appli where statut='Terminé'");
+		$stmt->execute();
+		
+			foreach(($stmt->fetchAll()) as $toto){
+				echo "<table>";
+				echo "<tr><th>"; echo "Nombre Tache Faite"; echo "</th></tr>";				
+				echo "<tr><th>"; echo $toto['COUNT(tache)']; echo "</th></tr>";
+				echo "</table>";
+		}
+                 ?> </br> <?php
+
+}
+
+  public function liste_tache_terminer($db){
+      
+                        $stmt = $db->prepare("SELECT nom,COUNT(nom) FROM appli where statut='Terminé' group by nom"); 
+			$stmt->execute();
+					
+                        echo "<table id='dernier' align='center'>";
+			
+                            echo "<tr><th>"; echo "Nom Application"; echo "</th>";
+                            echo "<th>"; echo "Nombre de tache"; echo "</th></tr>";
+                        
+			foreach(($stmt->fetchAll()) as $donnees){
+							
+                            echo "<tr><th>"; echo $donnees['nom']; echo "</th>";
+                            echo "<th>"; echo $donnees['COUNT(nom)']; echo "</th></tr>";
+                        
+  } 			echo "</table>";
+                 ?> </br> <?php
 }
   
 }
