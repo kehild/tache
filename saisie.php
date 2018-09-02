@@ -9,7 +9,7 @@ include_once 'header.php';
 if (isset($_POST['saisir'])) {
     
 	$tache = new Webservice($db);
-	$tache->SaisieTache($db,$_POST['nom'],$_POST['type'],$_POST['tache'],$_POST['statut']);	
+	$tache->SaisieTache($db,$_POST['nom'],$_POST['type'],$_POST['tache'],$_POST['statut'],$_POST['niveau']);	
 }
 
 if (isset($_POST['Annuler'])){   
@@ -48,6 +48,21 @@ if (isset($_POST['Annuler'])){
                             <option value="Terminé">Terminé</option>
                     </select>
                     </br>
+					 <label for="niveau">Niveau de Priorité</label>
+                    </br>
+                    <select name="niveau" id="niveau">
+                            <option value="1">1</option>
+                            <option value="2">2</option> 
+                            <option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+                    </select>
+					</br>
                     <input type="submit" id="Annuler" name="Annuler" value="Annuler">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="submit" id="Valider" name="saisir" value="Valider"> 

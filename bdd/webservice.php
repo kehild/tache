@@ -41,8 +41,9 @@ class Webservice{
 		foreach(($stmt->fetchAll()) as $donnees){
                     		
 			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
-                        echo "<th>"; echo $donnees['statut']; echo "<th>";
-                        echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
+            echo "<th>"; echo $donnees['statut']; echo "<th>";
+			echo "<th>"; echo $donnees['niveau']; echo "<th>";
+            echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 			echo "<th>"; echo '<a href="?id1='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";                        
                 }
                 
@@ -59,8 +60,9 @@ class Webservice{
 		foreach(($stmt->fetchAll()) as $donnees){
 			
 			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
-                        echo "<th>"; echo $donnees['statut']; echo "<th>";
-                        echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
+            echo "<th>"; echo $donnees['statut']; echo "<th>";
+			echo "<th>"; echo $donnees['niveau']; echo "<th>";
+            echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 			echo "<th>"; echo '<a href="?id2='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";
                         
                 }
@@ -78,8 +80,9 @@ class Webservice{
 		foreach(($stmt->fetchAll()) as $donnees){
 			
 			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
-                        echo "<th>"; echo $donnees['statut']; echo "<th>";
-                        echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
+            echo "<th>"; echo $donnees['statut']; echo "<th>";
+			echo "<th>"; echo $donnees['niveau']; echo "<th>";
+			echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 			echo "<th>"; echo '<a href="?id3='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";
                         
                 }
@@ -96,28 +99,29 @@ class Webservice{
 		foreach(($stmt->fetchAll()) as $donnees){
 			
 			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
-                        echo "<th>"; echo $donnees['statut']; echo "<th>";
-                        echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
+            echo "<th>"; echo $donnees['statut']; echo "<th>";
+			echo "<th>"; echo $donnees['niveau']; echo "<th>";
+            echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 			echo "<th>"; echo '<a href="?id4='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";
                
                 }
                 echo "</table>";
   }
   
-    public function SaisieTache($db,$nom,$type,$tache,$statut){
+    public function SaisieTache($db,$nom,$type,$tache,$statut,$niveau){
         
 	$date_tache = date("Y-m-d H:i:s");	
 		try {	
 			
-                        $nom = $_POST['nom'];
-                        $nom = str_replace("'", "\'", $nom);
+            $nom = $_POST['nom'];
+            $nom = str_replace("'", "\'", $nom);
 			$nom = str_replace("’", " ", $nom);           
                         
 			$tache = $_POST['tache'];
 			$tache = str_replace("'", "\'", $tache);
 			$tache = str_replace("’", " ", $tache);
 			
-			$sql = "Insert INTO appli (nom,tache,type,statut,date_tache) VALUES ('$nom','$tache','$type','$statut','$date_tache')";
+			$sql = "Insert INTO appli (nom,tache,type,statut,date_tache,niveau) VALUES ('$nom','$tache','$type','$statut','$date_tache','$niveau')";
 			$db->exec($sql);
 			echo "Insertion réussi";
 
@@ -317,6 +321,21 @@ public function modif_tache($db){
                             <option value="Terminé">Terminé</option>
                     </select>
                     </br>
+					<label for="niveau">Niveau de Priorité</label>
+                    </br>
+                    <select name="niveau" id="niveau">
+                            <option value="1">1</option>
+                            <option value="2">2</option> 
+                            <option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+                    </select>
+					</br>
                     <input type="submit" id="Annuler" name="Annuler" value="Annuler">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="submit" id="Modifier" name="Modifier" value="Modifier"> 
@@ -336,7 +355,7 @@ public function Update_tache($db){
                         $tache = str_replace("'", "\'", $tache);
                         $tache = str_replace("’", " ", $tache);
                                                      				
-			$sql = "UPDATE appli SET tache='".$tache."', statut='".$_POST['statut']."', date_tache='$date_tache' WHERE nom='".$_GET['nom']."' AND id='".$_GET['id5']."'";
+			$sql = "UPDATE appli SET tache='".$tache."', statut='".$_POST['statut']."', date_tache='$date_tache',niveau='".$_POST['niveau']."' WHERE nom='".$_GET['nom']."' AND id='".$_GET['id5']."'";
 			
 			$db->exec($sql);
 				
