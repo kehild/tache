@@ -40,9 +40,10 @@ class Webservice{
                
 		foreach(($stmt->fetchAll()) as $donnees){
                     		
-			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
+			echo "<tr><th>"; echo strip_tags($donnees['tache']); echo "</th>";
             echo "<th>"; echo $donnees['statut']; echo "<th>";
 			echo "<th>"; echo $donnees['niveau']; echo "<th>";
+			echo "<th>"; if ($donnees['commentaire'] != "" || $donnees['commentaire'] != NULL){ echo '<img src="image/commentaire.png">'; }; echo "<th>";
             echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 			echo "<th>"; echo '<a href="?id1='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";                        
                 }
@@ -59,9 +60,10 @@ class Webservice{
                         
 		foreach(($stmt->fetchAll()) as $donnees){
 			
-			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
+			echo "<tr><th>"; echo  strip_tags($donnees['tache']); echo "</th>";
             echo "<th>"; echo $donnees['statut']; echo "<th>";
 			echo "<th>"; echo $donnees['niveau']; echo "<th>";
+			echo "<th>"; if ($donnees['commentaire'] != "" || $donnees['commentaire'] != NULL){ echo '<img src="image/commentaire.png">'; }; echo "<th>";
             echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 			echo "<th>"; echo '<a href="?id2='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";
                         
@@ -79,10 +81,11 @@ class Webservice{
 			                       
 		foreach(($stmt->fetchAll()) as $donnees){
 			
-			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
+			echo "<tr><th>"; echo strip_tags($donnees['tache']); echo "</th>";
             echo "<th>"; echo $donnees['statut']; echo "<th>";
 			echo "<th>"; echo $donnees['niveau']; echo "<th>";
-			echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
+			echo "<th>"; if ($donnees['commentaire'] != "" || $donnees['commentaire'] != NULL){ echo '<img src="image/commentaire.png">'; }; echo "<th>";
+			echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";		
 			echo "<th>"; echo '<a href="?id3='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";
                         
                 }
@@ -98,9 +101,10 @@ class Webservice{
 			                       
 		foreach(($stmt->fetchAll()) as $donnees){
 			
-			echo "<tr><th>"; echo $donnees['tache']; echo "</th>";
+			echo "<tr><th>"; echo strip_tags($donnees['tache']); echo "</th>";
             echo "<th>"; echo $donnees['statut']; echo "<th>";
 			echo "<th>"; echo $donnees['niveau']; echo "<th>";
+			echo "<th>"; if ($donnees['commentaire'] != "" || $donnees['commentaire'] != NULL){ echo '<img src="image/commentaire.png">'; }; echo "<th>";
             echo "<th>"; echo stripslashes('<a href="modif_tache.php?id5='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/modifier.png"></a>'); echo "</th>";
 			echo "<th>"; echo '<a href="?id4='.$donnees['id'].'&nom='.$_GET['nom'].'"><img src="image/delete.png"></a>'; echo "</th></tr>";
                
@@ -169,7 +173,7 @@ class Webservice{
 		foreach(($stmt->fetchAll()) as $donnees){
 			
 			echo "<tr><th>"; echo $donnees['description']; echo "</th>";
-                        echo "<th>"; echo stripslashes('<a href="modif_appli.php?nom='.$donnees['nom'].'"><img src="image/modifier.png"></a>'); echo "</th></tr>";
+            echo "<th>"; echo stripslashes('<a href="modif_appli.php?nom='.$donnees['nom'].'"><img src="image/modifier.png"></a>'); echo "</th></tr>";
                 }
                 
                 echo "</table>";
@@ -297,7 +301,8 @@ public function modif_tache($db){
                 
                 foreach(($stmt->fetchAll()) as $toto){
 		?>
-                
+                <script src="ckeditor/ckeditor.js"></script>
+				
                 <form method="post" action="">
                     </br>
                     <label for="nom">Nom Application</label>
@@ -308,9 +313,9 @@ public function modif_tache($db){
                     </br>
                     <input type="text" id="nom" name="nom" value="<?php echo $toto['type']; ?>">
                      </br>
-                     <label for="tache">Tache</label>
-                     </br>
-                    <textarea name="tache" rows="6" cols="60"><?php echo $toto['tache']; ?></textarea>
+                    <label for="tache">Tache</label>
+                    </br></br>
+                    <textarea name="tache" rows="6" cols="60" id="editor1"><?php echo $toto['tache']; ?></textarea>
                     </br>
                     <label for="statut">Statut de la Tache</label>
                     </br>
@@ -324,6 +329,7 @@ public function modif_tache($db){
 					<label for="niveau">Niveau de Priorité</label>
                     </br>
                     <select name="niveau" id="niveau">
+							<option value="<?php echo $toto['niveau']; ?>"><?php echo $toto['niveau']; ?></option>
                             <option value="1">1</option>
                             <option value="2">2</option> 
                             <option value="3">3</option>
@@ -336,13 +342,24 @@ public function modif_tache($db){
 							<option value="10">10</option>
                     </select>
 					</br>
+					<label for="commentaire">Commentaire</label>
+                    </br></br>
+                    <textarea name="commentaire" rows="6" cols="60" id="editor2"><?php echo $toto['commentaire']; ?></textarea>
+                    </br>
                     <input type="submit" id="Annuler" name="Annuler" value="Annuler">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="submit" id="Modifier" name="Modifier" value="Modifier"> 
               </form>
+			  
+				<script>
+					CKEDITOR.replace( 'editor1' );
+					CKEDITOR.replace( 'editor2' );
+				</script>
+    
                 <?php				
             }		
-    
+			
+
 }
 
 public function Update_tache($db){
@@ -355,7 +372,7 @@ public function Update_tache($db){
                         $tache = str_replace("'", "\'", $tache);
                         $tache = str_replace("’", " ", $tache);
                                                      				
-			$sql = "UPDATE appli SET tache='".$tache."', statut='".$_POST['statut']."', date_tache='$date_tache',niveau='".$_POST['niveau']."' WHERE nom='".$_GET['nom']."' AND id='".$_GET['id5']."'";
+			$sql = "UPDATE appli SET tache='".$tache."', statut='".$_POST['statut']."', date_tache='$date_tache',niveau='".$_POST['niveau']."',commentaire='".$_POST['commentaire']."' WHERE nom='".$_GET['nom']."' AND id='".$_GET['id5']."'";
 			
 			$db->exec($sql);
 				
@@ -387,7 +404,7 @@ public function Update_tache($db){
                         $dateF = date_format($date,"d-m-Y");                  
                     
 			echo "<tr><th>"; echo $donnees['nom']; echo "</th>";
-                        echo "<th>"; echo $donnees['tache']; echo "</th>";
+                        echo "<th>"; echo strip_tags($donnees['tache']); echo "</th>";
                         echo "<th>"; echo $dateF; echo "</th></tr>";
                 }
                 
@@ -412,7 +429,7 @@ function total_termine($db){
 
   public function liste_tache_terminer($db){
       
-                        $stmt = $db->prepare("SELECT nom,COUNT(nom) FROM appli where statut='Terminé' group by nom"); 
+                        $stmt = $db->prepare("SELECT nom,COUNT(nom) FROM appli where statut='Terminé' group by nom ORDER BY COUNT(nom) DESC"); 
 			$stmt->execute();
 					
                         echo "<table id='dernier' align='center'>";
@@ -428,5 +445,32 @@ function total_termine($db){
   } 			echo "</table>";
                  ?> </br> <?php
 }
+
+
+  public function tache_importante($db){
+      
+                        $stmt = $db->prepare("SELECT nom,tache,statut,niveau FROM appli where (statut='A Faire' OR statut='En Cours') and niveau >= 5"); 
+			$stmt->execute();
+						
+						echo "<h3>Tache Prioritaire A Faire et En Cours</h3>";
+						
+                        echo "<table id='dernier' align='center'>";
+			
+                            echo "<tr><th>"; echo "Nom Application"; echo "</th>";
+                            echo "<th>"; echo "Tache"; echo "</th>";
+							echo "<th>"; echo "Statut"; echo "</th>";
+							echo "<th>"; echo "Niveau"; echo "</th></tr>";
+                        
+			foreach(($stmt->fetchAll()) as $donnees){
+							
+                            echo "<tr><th>"; echo $donnees['nom']; echo "</th>";
+                            echo "<th>"; echo strip_tags($donnees['tache']); echo "</th>";
+							echo "<th>"; echo $donnees['statut']; echo "</th>";
+							echo "<th>"; echo $donnees['niveau']; echo "</th></tr>";
+							
+  } 			echo "</table>";
+                 ?> </br> <?php
+}
+  
   
 }

@@ -1,3 +1,4 @@
+<script src="ckeditor/ckeditor.js"></script>
 <?php
 include_once 'bdd/connexion.php';
 include_once 'bdd/webservice.php';
@@ -25,8 +26,8 @@ if (isset($_POST['Annuler'])){
                     <input type="text" id="nom" name="nom">
                     </br>
                     <label for="description">Description</label>
-                     </br>
-                    <textarea name="description" rows="6" cols="60"></textarea>
+                     </br></br>
+                    <textarea name="description" rows="6" cols="60" id="editor1"></textarea>
                     </br>
                     <input type="submit" id="Annuler" name="Annuler" value="Annuler">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -40,3 +41,6 @@ if (isset($_POST['Annuler'])){
     include_once 'footer.php';
 ?>
 
+<script>
+ CKEDITOR.replace( 'editor1' );
+</script>

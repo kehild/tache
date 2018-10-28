@@ -1,5 +1,6 @@
 <script type="text/javascript" src="./jquery.min.js"></script>
 <script type="text/javascript" src="./jquery.autocomplete.min.js"></script>
+<script src="ckeditor/ckeditor.js"></script>
 
 <?php
 include_once 'bdd/connexion.php';
@@ -37,8 +38,8 @@ if (isset($_POST['Annuler'])){
                     </select>
                      </br>
                      <label for="tache">Tache</label>
-                     </br>
-                    <textarea name="tache" rows="6" cols="60"></textarea>
+                    </br></br>
+                    <textarea name="tache" rows="6" cols="60" id="editor1"></textarea>
                     </br>
                     <label for="statut">Statut de la Tache</label>
                     </br>
@@ -79,6 +80,7 @@ $(document).ready(function() {
         dataType: 'json'
     });
 });
+ CKEDITOR.replace( 'editor1' );
 </script>
 <?php
     include_once 'footer.php';
